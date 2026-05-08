@@ -27,7 +27,16 @@ class pagocontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated =
+        $request->validate([
+            'pagare_id' => 'required|exists:pagares,id',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'monto_pago' => 'required|numeric',
+            'fecha_pago' => 'required|date',
+            'referencia_transaccion' => 'required|string|max:100',
+            'metodo_pago' => 'required|string|max:50',
+            'estatus' => 'required|boolean',
+        ]);
     }
 
     /**

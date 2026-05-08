@@ -27,7 +27,18 @@ class pagarecontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated =
+        $request->validate([
+            'deudor_id' => 'required|exists:deudores,id',
+            'aseguradora_id' => 'required|exists:aseguradoras,id',
+            'monto_original' => 'required|numeric',
+            'fecha_registro' => 'required|date',
+            'estatus' => 'required|boolean',
+            'fecha_prestamo' => 'required|date',
+            'expediente_id' => 'required|exists:expedientes,id',
+            'seguimiento_id' => 'required|exists:seguimientos,id', 
+            'saldo' => 'required|numeric',
+        ]);
     }
 
     /**
