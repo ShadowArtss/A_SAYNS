@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\pago;
+use App\Models\pagare;
 
 class pagocontroller extends Controller
 {
@@ -27,7 +29,16 @@ class pagocontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pago = pago::create($request->validated());
+        $pagare = pagare::findorfail($request->pagare_id);
+        $pagare->saldo -= $pagare->saldo - $request->monto_pago;
+
+        if($pagare->saldo <= 0){
+            $pagare->saldo = 0;
+            $pagare->estatus = 'pagado';
+        }
+        $pagare->save();
+        return redirect()->back()->with('success', 'Pago registrado. EL nuevo saldo del pagare es: ' . $pagare->saldo);
     }
 
     /**
