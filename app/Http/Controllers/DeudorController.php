@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\deudor;
+use App\Http\Requests\DeudorRequest;
 use Illuminate\Http\Request;
 
 class DeudorController extends Controller
@@ -25,9 +27,11 @@ class DeudorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DeudorRequest $request)
     {
-        //
+        deudor::create($request->validated());
+        return redirect()->route('deudores.index')->with('success', 'Deudor creado exitosamente.');
+
     }
 
     /**
@@ -49,16 +53,19 @@ class DeudorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DeudorRequest $request, deudor $deudor)
     {
-        //
+        $deudor->update($request->validated());
+
+        return redirect()->route('deudores.index')->with('info', 'Datos actualizados con éxito');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(deudor $deudor)
     {
-        //
+        $deudor->delete();
+        return redirect()->route('deudores.index')->with('danger', 'Deudor eliminado del sistema');
     }
 }
