@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class pagare extends Model
 {
     protected $fillable = [
-    'deudor_id', 'expediente_id', 'seguimiento_id', 'aseguradora_id', 
-    'monto_original', 'saldo', 'fecha_emision', 'fecha_compra'
+    'deudor_id', 'expediente_id', 'seguimiento_id', 'aseguradora_id',
+    'monto_original', 'saldo', 'fecha_emision', 'fecha_compra', 'estatus'
 ];
 
 // Relación con el deudor
@@ -38,5 +38,12 @@ public function seguimiento()
 public function pagos()
 {
     return $this->hasMany(Pago::class);
+}
+
+public function getSaldoPEndienteAttribute()
+{
+    // Saldo = Monto Original - (la suma de todos los pagos realizados)
+    return $this->monto_orginal - $this->pagos()->sum('monto_pago');
+
 }
 }
