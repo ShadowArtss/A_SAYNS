@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use app\Http\Controllers\pagarecontroller;
 
 Route::view('/', 'welcome');
 
@@ -29,8 +30,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/aseguradoras/create', 'aseguradoras.create')->name('aseguradoras.create');
 
     // PAGARES
-    Route::view('/pagares', 'pagares.index')->name('pagares.index');
-    Route::view('/pagares/create', 'pagares.create')->name('pagares.create');
+    // PAGARES
+    Route::get('/pagares', [pagarecontroller::class, 'index'])->name('pagares.index');
+    Route::get('/pagares/create', [pagarecontroller::class, 'create'])->name('pagares.create');
+    Route::post('/pagares', [pagarecontroller::class, 'store'])->name('pagares.store'); // <-- Esta es la ruta que te faltaba
 
     // PAGOS
     Route::view('/pagos', 'pagos.index')->name('pagos.index');

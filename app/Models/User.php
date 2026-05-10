@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,14 +9,12 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // 1. Apagamos los timestamps para evitar el error que te salió
+    public $timestamps = false;
+
+    // 2. Definimos exactamente qué columnas tienes en tu tabla
     protected $fillable = [
         'usuario',
         'email',
@@ -29,26 +26,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(roles::class);
     }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+
+    // 3. Ocultamos 'clave' en lugar de 'password'
     protected $hidden = [
-        'password',
+        'clave',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'clave' => 'hashed', // Hasheamos tu columna 'clave'
         ];
+    }
+
+    // 4. Le decimos al sistema de Login de Laravel cuál es tu columna de contraseña
+    public function getAuthPasswordName()
+    {
+        return 'clave';
     }
 }
