@@ -44,6 +44,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/roles', 'roles.index')->name('roles.index');
     Route::view('/roles/create', 'roles.create')->name('roles.create');
 
+    //PEYPAL_PAGOS
+    Route::view('/paypal_pagos', 'paypal_pagos.index')->name('paypal_pagos.index');
+    Route::view('/paypal_pagos/create', 'paypal_pagos.create')->name('paypal_pagos.create');
+
 });
 
 Route::view('profile', 'profile')
