@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\seguimiento;
 use Illuminate\Http\Request;
 
 class aseguradoracontroller extends Controller
@@ -26,9 +26,12 @@ class aseguradoracontroller extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    { $validated =
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+        ]);
     }
+    
 
     /**
      * Display the specified resource.
