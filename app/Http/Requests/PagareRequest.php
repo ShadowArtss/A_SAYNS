@@ -29,8 +29,8 @@ class PagareRequest extends FormRequest
             'aseguradora_id' => 'required|exists:aseguradoras,id',
             'monto_original' => 'required|numeric|min:0',
             'saldo' => 'required|numeric|min:0',
-            'fecha_emision' => 'required|date',
-            'fecha_compra' => 'required|date|after_or_equal:fecha_emision',
+            'fecha_registro' => 'required|date',
+            'fecha_prestamo' => 'required|date|after_or_equal:fecha_registro',
             'estatus' => 'required|in:activo,liquidado,incobrable'
         ];
     }

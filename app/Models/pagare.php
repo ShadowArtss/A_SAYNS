@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class pagare extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
     'deudor_id', 'expediente_id', 'seguimiento_id', 'aseguradora_id',
-    'monto_original', 'saldo', 'fecha_emision', 'fecha_compra', 'estatus'
+    'monto_original', 'saldo', 'fecha_registro', 'fecha_prestamo', 'estatus'
 ];
 
 // Relación con el deudor
