@@ -13,7 +13,8 @@ class pagarecontroller extends Controller
      */
     public function index()
     {
-        //
+        $pagares = pagare::all();
+        return view('pagares.index', compact('pagares'));
     }
 
     /**
@@ -21,7 +22,7 @@ class pagarecontroller extends Controller
      */
     public function create()
     {
-        //
+        return view('pagares.create');
     }
 
     /**

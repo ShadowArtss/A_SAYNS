@@ -13,7 +13,8 @@ class pagocontroller extends Controller
      */
     public function index()
     {
-        //
+        $pagos = pago::all();
+        return view('pagos.index', compact('pagos'));
     }
 
     /**
@@ -21,7 +22,7 @@ class pagocontroller extends Controller
      */
     public function create()
     {
-        //
+        return view('pagos.create');
     }
 
     /**

@@ -13,7 +13,9 @@ class DeudorController extends Controller
      */
     public function index()
     {
-        //
+        $deudores = Deudor::all();
+
+        return view('deudores.index', compact('deudores'));
     }
 
     /**
@@ -21,7 +23,7 @@ class DeudorController extends Controller
      */
     public function create()
     {
-        //
+        return view('deudores.create');
     }
 
     /**
@@ -29,9 +31,11 @@ class DeudorController extends Controller
      */
     public function store(DeudorRequest $request)
     {
-        deudor::create($request->validated());
-        return redirect()->route('deudores.index')->with('success', 'Deudor creado exitosamente.');
+        // Esto guarda TODO lo que venga del formulario de golpe
+        // Solo asegúrate de que los 'name' del HTML coincidan con la DB
+        Deudor::create($request->all());
 
+        return redirect()->route('deudores.index')->with('success', 'Deudor guardado');
     }
 
     /**
