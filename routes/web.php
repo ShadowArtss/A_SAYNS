@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\DeudorController;
-use App\Http\Controllers\PagareController;
-use App\Http\Controllers\PagoController;
+use App\Http\Controllers\pagoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\pagarecontroller;
 
 Route::view('/', 'welcome');
 
@@ -36,9 +36,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/aseguradoras/create', 'aseguradoras.create')->name('aseguradoras.create');
 
     // PAGARES
-    //Route::view('/pagares', 'pagares.index')->name('pagares.index');
-    //Route::view('/pagares/create', 'pagares.create')->name('pagares.create');
+    Route::get('/pagares', [pagarecontroller::class, 'index'])->name('pagares.index');
+    Route::get('/pagares/create', [pagarecontroller::class, 'create'])->name('pagares.create');
+    Route::post('/pagares', [pagarecontroller::class, 'store'])->name('pagares.store'); // <-- Esta es la ruta que te faltaba
 
+    Route::get('/pagares/{id}/edit', [pagarecontroller::class, 'edit'])->name('pagares.edit');
+    Route::put('/pagares/{id}', [pagarecontroller::class, 'update'])->name('pagares.update');
+    Route::delete('/pagares/{id}', [pagarecontroller::class, 'destroy'])->name('pagares.destroy');
     // PAGOS
     //Route::view('/pagos', 'pagos.index')->name('pagos.index');
     //Route::view('/pagos/create', 'pagos.create')->name('pagos.create');
