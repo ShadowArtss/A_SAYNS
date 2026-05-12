@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\seguimiento;
 use Illuminate\Http\Request;
+use App\Models\aseguradora;
 
 class aseguradoracontroller extends Controller
 {
@@ -11,7 +12,8 @@ class aseguradoracontroller extends Controller
      */
     public function index()
     {
-        //
+        $aseguradoras = aseguradora::all();
+        return view('aseguradoras.index', compact('aseguradoras'));
     }
 
     /**
@@ -19,7 +21,7 @@ class aseguradoracontroller extends Controller
      */
     public function create()
     {
-        //
+        return view('aseguradoras.create');
     }
 
     /**
@@ -28,8 +30,12 @@ class aseguradoracontroller extends Controller
     public function store(Request $request)
     { $validated =
         $request->validate([
-            'nombre' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100|unique:aseguradoras,nombre',
         ]);
+
+        aseguradora::create($request->all());
+
+        return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora creada exitosamente.');
     }
     
 
@@ -39,6 +45,8 @@ class aseguradoracontroller extends Controller
     public function show(string $id)
     {
         //
+        $aseguradora = aseguradora::findOrFail($id);
+        return view('aseguradoras.show', compact('aseguradora'));
     }
 
     /**
@@ -47,6 +55,8 @@ class aseguradoracontroller extends Controller
     public function edit(string $id)
     {
         //
+        $aseguradora = aseguradora::findOrFail($id);
+        return view('aseguradoras.edit', compact('aseguradora'));
     }
 
     /**
@@ -55,6 +65,14 @@ class aseguradoracontroller extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            'nombre' => 'required|string|max:100|unique:aseguradoras,nombre,' . $id,
+        ]);
+
+        $aseguradora = aseguradora::findOrFail($id);
+        $aseguradora->update($request->all());
+
+        return redirect()->route('aseguradoras.index')->with('success', 'Aseguradora actualizada exitosamente.');
     }
 
     /**
@@ -63,5 +81,8 @@ class aseguradoracontroller extends Controller
     public function destroy(string $id)
     {
         //
+        $aseguradora = aseguradora::findOrFail($id);
+        $aseguradora->delete();
+        return redirect()->route('aseguradoras.index')->with('danger', 'Aseguradora eliminada correctamente.');
     }
 }

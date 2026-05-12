@@ -50,41 +50,38 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
+                            @foreach ($aseguradoras as $aseguradora)
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-semibold text-gray-600">
+                                        {{ $aseguradora->id }}
+                                    </td>
+                                    <td class="px-4 py-4 text-gray-700">
+                                        {{ $aseguradora->nombre }}
+                                    </td>
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
+                                    <td class="px-4 py-4 text-center">
+                                        <div class="flex justify-center items-center gap-2">
+                                            
 
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                            <a href="{{ route('aseguradoras.edit', $aseguradora->id) }}" 
+                                            class="text-gray-400 hover:text-yellow-600 transition" title="Editar">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
+                                            <form action="{{ route('aseguradoras.destroy', $aseguradora->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE') 
+                                                <button type="submit" 
+                                                        class="text-gray-400 hover:text-red-600 transition mx-2" 
+                                                        title="Eliminar"
+                                                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta aseguradora? Esta acción no se puede deshacer.')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

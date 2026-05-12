@@ -35,34 +35,32 @@
                     </span>
                 </div>
 
-                <form>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form action="{{ route('aseguradoras.store') }}" method="POST">
+                    @csrf <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
                             <label class="block text-xs font-bold text-gray-600 uppercase mb-2">ID Aseguradora</label>
-                            <input type="text" placeholder="Ej: ASE-001"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            <input type="text" placeholder="Ej: ASE-001" readonly
+                                class="w-full rounded-lg border-gray-300 bg-gray-50 text-gray-400 cursor-not-allowed">
+                            <p class="text-[10px] mt-1 text-gray-400">El ID se genera automáticamente al guardar.</p>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Nombre</label>
-                            <input type="text" placeholder="Ej: GNP Seguros"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            <input type="text" name="nombre" placeholder="Ej: GNP Seguros" required
+                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            @error('nombre')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                     </div>
 
                     <div class="flex justify-end gap-4 mt-8">
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">
-                            <i class="fas fa-eye mr-2"></i> Ver
-                        </button>
-
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-900 text-white font-bold hover:bg-gray-800 transition">
-                            <i class="fas fa-pen mr-2"></i> Editar
-                        </button>
+                        <a href="{{ route('aseguradoras.index') }}"
+                        class="px-6 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">
+                            Cancelar
+                        </a>
 
                         <button type="submit"
                                 class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">

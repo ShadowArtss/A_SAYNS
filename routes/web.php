@@ -4,6 +4,7 @@ use App\Http\Controllers\DeudorController;
 use App\Http\Controllers\pagoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\pagarecontroller;
+use App\Http\Controllers\aseguradoracontroller;
 
 Route::view('/', 'welcome');
 
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('deudores', DeudorController::class);
     Route::resource('pagares', PagareController::class);
     Route::resource('pagos', PagoController::class);
+    Route::resource('aseguradoras', aseguradoracontroller::class);
 
     // DEUDORES
     //Route::view('/deudores', 'deudores.index')->name('deudores.index');
@@ -32,8 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/seguimientos/create', 'seguimientos.create')->name('seguimientos.create');
 
     // ASEGURADORAS
-    Route::view('/aseguradoras', 'aseguradoras.index')->name('aseguradoras.index');
-    Route::view('/aseguradoras/create', 'aseguradoras.create')->name('aseguradoras.create');
+    //Route::view('/aseguradoras', 'aseguradoras.index')->name('aseguradoras.index');
+    //Route::view('/aseguradoras/create', 'aseguradoras.create')->name('aseguradoras.create');
 
     // PAGARES
     Route::get('/pagares', [pagarecontroller::class, 'index'])->name('pagares.index');
