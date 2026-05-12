@@ -64,8 +64,8 @@
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="px-4 py-4 font-semibold text-gray-600">{{ $deudor->id }}</td>
                                     <td class="px-4 py-4 text-gray-700">{{ $deudor->nombres }}</td>
-                                    <td class="px-4 py-4 text-gray-700">{{ $deudor->apellido_paterno }}</td>
-                                    <td class="px-4 py-4 text-gray-700">{{ $deudor->apellido_materno }}</td>
+                                    <td class="px-4 py-4 text-gray-700">{{ $deudor->apellido_p }}</td>
+                                    <td class="px-4 py-4 text-gray-700">{{ $deudor->apellido_m }}</td>
                                     <td class="px-4 py-4 text-gray-700">{{ $deudor->celular }}</td>
                                     <td class="px-4 py-4 text-gray-700">{{ $deudor->telefono_fijo }}</td>
                                     <td class="px-4 py-4 text-gray-700">{{ $deudor->direccion_id }}</td>
