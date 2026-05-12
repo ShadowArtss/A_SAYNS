@@ -29,16 +29,16 @@ class pagocontroller extends Controller
      */
     public function store(Request $request)
     {
-        $pago = pago::create($request->validated());
-        $pagare = pagare::findorfail($request->pagare_id);
-        $pagare->saldo -= $pagare->saldo - $request->monto_pago;
-
-        if($pagare->saldo <= 0){
-            $pagare->saldo = 0;
-            $pagare->estatus = 'pagado';
-        }
-        $pagare->save();
-        return redirect()->back()->with('success', 'Pago registrado. EL nuevo saldo del pagare es: ' . $pagare->saldo);
+        $validated =
+        $request->validate([
+            'pagare_id' => 'required|exists:pagares,id',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'monto_pago' => 'required|numeric',
+            'fecha_pago' => 'required|date',
+            'referencia_transaccion' => 'required|string|max:100',
+            'metodo_pago' => 'required|string|max:50',
+            'estatus' => 'required|boolean',
+        ]);
     }
 
     /**

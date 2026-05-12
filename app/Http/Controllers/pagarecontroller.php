@@ -29,8 +29,18 @@ class pagarecontroller extends Controller
      */
     public function store(Request $request)
     {
-        pagare::create($request->validated());
-        return redirect()->back()->with('success', 'Pagare creado exitosamente.');
+        $validated =
+        $request->validate([
+            'deudor_id' => 'required|exists:deudores,id',
+            'aseguradora_id' => 'required|exists:aseguradoras,id',
+            'monto_original' => 'required|numeric',
+            'fecha_registro' => 'required|date',
+            'estatus' => 'required|boolean',
+            'fecha_prestamo' => 'required|date',
+            'expediente_id' => 'required|exists:expedientes,id',
+            'seguimiento_id' => 'required|exists:seguimientos,id', 
+            'saldo' => 'required|numeric',
+        ]);
     }
 
     /**
