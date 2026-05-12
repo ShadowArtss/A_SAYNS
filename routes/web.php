@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\pagarecontroller;
 use App\Http\Controllers\aseguradoracontroller;
 use App\Http\Controllers\DireccionController;
+use App\Http\Controllers\RolController;
 
 Route::view('/', 'welcome');
 
@@ -18,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('pagares', PagareController::class);
     Route::resource('pagos', PagoController::class);
     Route::resource('aseguradoras', aseguradoracontroller::class);
+    Route::resource('roles', RolController::class);
 
     // DEUDORES
     //Route::view('/deudores', 'deudores.index')->name('deudores.index');
@@ -56,8 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/usuarios/create', 'usuarios.create')->name('usuarios.create');
 
     // ROLES
-    Route::view('/roles', 'roles.index')->name('roles.index');
-    Route::view('/roles/create', 'roles.create')->name('roles.create');
+    //Route::view('/roles', 'roles.index')->name('roles.index');
+    //Route::view('/roles/create', 'roles.create')->name('roles.create');
 
     //PEYPAL_PAGOS
     Route::view('/paypal_pagos', 'paypal_pagos.index')->name('paypal_pagos.index');
