@@ -118,19 +118,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- Pagos PayPal -->
-                    <a href="{{ route('paypal_pagos.index') }}"
-                        class="p-6 rounded-xl border border-gray-200 bg-gray-50 hover:bg-blue-50 hover:border-blue-300 transition">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
-                                <i class="fab fa-paypal text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-gray-800">Pagos PayPal</h4>
-                                <p class="text-sm text-gray-500">Registro PayPal</p>
-                            </div>
-                        </div>
-                    </a>
 
                     <!-- Deudores -->
                     <a href="{{ route('deudores.index') }}"

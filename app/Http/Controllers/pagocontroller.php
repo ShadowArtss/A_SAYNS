@@ -22,7 +22,8 @@ class pagocontroller extends Controller
      */
     public function create()
     {
-        return view('pagos.create');
+        $pagares = pagare::where('estatus', '!=', 'liquidado')->get();
+        return view('pagos.create', compact('pagares'));
     }
 
     /**
@@ -30,16 +31,33 @@ class pagocontroller extends Controller
      */
     public function store(Request $request)
     {
-        $pago = pago::create($request->validated());
-        $pagare = pagare::findorfail($request->pagare_id);
-        $pagare->saldo -= $pagare->saldo - $request->monto_pago;
+        $request->validate([
+            'pagare_id' => 'required|exists:pagares,id',
+            'monto_pago' => 'required|numeric|min:0',
+            'metodo_pago' => 'required|string',
+        ]);
 
-        if($pagare->saldo <= 0){
-            $pagare->saldo = 0;
-            $pagare->estatus = 'pagado';
-        }
-        $pagare->save();
-        return redirect()->back()->with('success', 'Pago registrado. EL nuevo saldo del pagare es: ' . $pagare->saldo);
+        pago::create([
+            'pagare_id' => $request->pagare_id,
+            'usuario_id' => auth()->id(),
+            'monto_pago' => $request->monto_pago,
+            'fecha_pago' => now(),
+            'metodo_pago' => $request->metodo_pago,
+            'estatus' => 'completado',
+            'referencia_transaccion' => 'SIMULADO-' . uniqid(),
+        ]);
+
+        $pagare = pagare::findOrFail($request->pagare_id);
+        $nuevo_saldo = $pagare->saldo_pendiente - $request->monto_pago;
+
+        $nuevoEstatus = $nuevo_saldo <= 0 ? 'liquidado' : 'pendiente';
+
+        $pagare->update([
+            'saldo_pendiente' => max($nuevo_saldo, 0),
+            'estatus' => $nuevoEstatus,
+        ]);
+
+        return redirect()->route('pagos.index')->with('success', 'Pago registrado exitosamente.');
     }
 
     /**

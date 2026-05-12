@@ -53,22 +53,30 @@
                         <tbody class="divide-y divide-gray-200">
                             @forelse($pagares as $pagare)
                                 <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-4 py-4 font-semibold text-gray-600">{{ $pagare->id }}</td>
-                                    <td class="px-4 py-4 text-gray-700">
+                                    <td class="px-4 py-4 font-semibold text-gray-600 text-sm">
+                                        {{ $pagare->id }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-700 text-sm">
                                         {{ $pagare->deudor->nombre ?? 'N/A' }}
                                     </td>
-                                    <td class="px-4 py-4 text-gray-600">
+                                    
+                                    <td class="px-4 py-4 text-gray-600 text-sm">
                                         {{ $pagare->aseguradora->nombre ?? 'N/A' }}
                                     </td>
-                                    <td class="px-4 py-4 text-gray-700 font-medium">
+                                    
+                                    <td class="px-4 py-4 text-gray-700 font-medium text-sm">
                                         ${{ number_format($pagare->monto_original, 2) }}
                                     </td>
-                                    <td class="px-4 py-4 text-blue-600 font-bold">
+                                    
+                                    <td class="px-4 py-4 text-blue-600 font-bold text-sm">
                                         ${{ number_format($pagare->saldo_pendiente, 2) }}
                                     </td>
+                                    
                                     <td class="px-4 py-4 text-gray-500 text-sm">
                                         {{ $pagare->fecha_registro }}
                                     </td>
+                                    
                                     <td class="px-4 py-4">
                                         @php
                                             $color = $pagare->estatus == 'PAGADO' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
@@ -77,17 +85,21 @@
                                             {{ $pagare->estatus }}
                                         </span>
                                     </td>
+                                    
                                     <td class="px-4 py-4 text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <a href="{{ route('pagares.show', $pagare->id) }}" class="text-blue-500 hover:text-blue-700" title="Ver Detalle">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('pagares.edit', $pagare->id) }}" class="text-gray-500 hover:text-gray-900" title="Editar">
+                                        <div class="flex justify-center items-center gap-3">
+                                            <a href="{{ route('pagares.edit', $pagare->id) }}" 
+                                            class="text-gray-400 hover:text-gray-900 transition" title="Editar">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <form action="{{ route('pagares.destroy', $pagare->id) }}" method="POST" onsubmit="return confirm('¿Eliminar este pagaré?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="text-red-400 hover:text-red-600">
+                                            
+                                            <form action="{{ route('pagares.destroy', $pagare->id) }}" method="POST" class="inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="text-gray-400 hover:text-red-600 transition" 
+                                                        onclick="return confirm('¿Seguro que deseas eliminar este pagaré?')" 
+                                                        title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -96,7 +108,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                                    <td colspan="8" class="px-4 py-8 text-center text-gray-500 italic">
                                         No hay pagarés registrados todavía.
                                     </td>
                                 </tr>

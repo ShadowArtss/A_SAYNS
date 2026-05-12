@@ -3,10 +3,10 @@
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Nuevo Expediente
+                    Editar Expediente #{{ $expediente->id }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">
-                    Registro de documentación oficial
+                    Actualización de documentación y archivos
                 </p>
             </div>
 
@@ -19,44 +19,41 @@
 
     <div class="py-10">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-
             <div class="bg-white shadow-sm sm:rounded-xl p-8 border border-gray-200">
 
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h3 class="text-lg font-bold text-gray-700 uppercase tracking-wide">
-                            Datos del Expediente
+                            Modificar Datos
                         </h3>
-                        <p class="text-sm text-gray-500">Asegúrate de subir el archivo en formato PDF</p>
+                        <p class="text-sm text-gray-500">Si subes un nuevo PDF, el anterior se eliminará automáticamente</p>
                     </div>
 
-                    <span class="px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-bold text-xs">
-                        PENDIENTE
+                    <span class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-xs">
+                        EDITANDO
                     </span>
                 </div>
 
-                <form action="{{ route('expedientes.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('expedientes.update', $expediente->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    @method('PUT') <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">ID Expediente</label>
-                            <input type="text" placeholder="Autogenerado" disabled
-                                   class="w-full rounded-lg border-gray-300 bg-gray-50 text-gray-400">
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">ID del Registro</label>
+                            <input type="text" value="{{ $expediente->id }}" disabled
+                                   class="w-full rounded-lg border-gray-300 bg-gray-50 text-gray-500">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Identificación Escaneada (PDF)</label>
-                            <input type="file" name="ruta_documentos" accept=".pdf" required
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Reemplazar PDF (Opcional)</label>
+                            <input type="file" name="ruta_documentos" accept=".pdf"
                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-300 rounded-lg">
-                            @error('ruta_documentos')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                            <p class="text-xs text-gray-400 mt-1 italic">Dejar vacío para conservar el archivo actual.</p>
                         </div>
 
                         <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                             <input type="checkbox" name="contrato" id="contrato" value="1" 
+                                   {{ $expediente->contrato ? 'checked' : '' }}
                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                             <label for="contrato" class="ml-3 block text-sm font-bold text-gray-700 uppercase cursor-pointer">
                                 ¿Incluye Contrato firmado?
@@ -65,6 +62,7 @@
 
                         <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                             <input type="checkbox" name="ine" id="ine" value="1" 
+                                   {{ $expediente->ine ? 'checked' : '' }}
                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                             <label for="ine" class="ml-3 block text-sm font-bold text-gray-700 uppercase cursor-pointer">
                                 ¿Incluye Copia de INE?
@@ -81,16 +79,11 @@
 
                         <button type="submit"
                                 class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                            <i class="fas fa-save mr-2"></i> Guardar Expediente
+                            <i class="fas fa-sync-alt mr-2"></i> Actualizar Expediente
                         </button>
                     </div>
-
                 </form>
-
             </div>
-
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </x-app-layout>

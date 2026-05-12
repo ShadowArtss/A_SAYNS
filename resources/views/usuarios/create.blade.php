@@ -6,7 +6,7 @@
                     Nuevo Usuario
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">
-                    Registro de usuario (solo frontend)
+                    Registro de nuevo cajero o administrador
                 </p>
             </div>
 
@@ -25,78 +25,51 @@
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h3 class="text-lg font-bold text-gray-700 uppercase tracking-wide">
-                            Datos del Usuario
+                            Datos de Acceso
                         </h3>
-                        <p class="text-sm text-gray-500">Campos para rellenar</p>
+                        <p class="text-sm text-gray-500">Credenciales para iniciar sesión en el sistema</p>
                     </div>
-
-                    <span class="px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-bold text-xs">
-                        PENDIENTE
-                    </span>
                 </div>
 
-                <form>
+                <form action="{{ route('usuarios.store') }}" method="POST">
+                    @csrf 
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+                        
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">ID Usuario</label>
-                            <input type="text" placeholder="Ej: USR-001"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Nombre Completo</label>
-                            <input type="text" placeholder="Ej: Juan Pérez"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Email</label>
-                            <input type="email" placeholder="Ej: usuario@gmail.com"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Nombre de Usuario</label>
+                            <input type="text" name="usuario" required placeholder="Ej: admin" value="{{ old('usuario') }}"
+                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Teléfono</label>
-                            <input type="text" placeholder="Ej: 5512345678"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Correo (Login)</label>
+                            <input type="email" name="email" required placeholder="Ej: usuario@empresa.com" value="{{ old('email') }}"
+                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Rol</label>
-                            <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                <option selected disabled>Selecciona rol</option>
-                                <option>Administrador</option>
-                                <option>Gestor</option>
-                                <option>Supervisor</option>
-                            </select>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Clave Temporal</label>
+                            <input type="password" name="clave" required placeholder="Mínimo 8 caracteres"
+                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                         </div>
 
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Estatus</label>
-                            <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                                <option selected disabled>Selecciona estatus</option>
-                                <option>Activo</option>
-                                <option>Inactivo</option>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Rol del Sistema</label>
+                            <select name="rol_id" required class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                <option value="" selected disabled>Selecciona un rol...</option>
+                                @foreach($roles as $rol)
+                                    <option value="{{ $rol->id }}">{{ $rol->nombre ?? 'Rol #'.$rol->id }}</option> 
+                                @endforeach
                             </select>
                         </div>
 
                     </div>
 
-                    <div class="flex justify-end gap-4 mt-8">
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">
-                            <i class="fas fa-eye mr-2"></i> Ver
-                        </button>
-
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-900 text-white font-bold hover:bg-gray-800 transition">
-                            <i class="fas fa-pen mr-2"></i> Editar
-                        </button>
-
-                        <button type="submit"
-                                class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">
-                            <i class="fas fa-save mr-2"></i> Guardar
+                    <div class="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-100">
+                        <a href="{{ route('usuarios.index') }}" class="px-6 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">Cancelar</a>
+                        <button type="submit" class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">
+                            <i class="fas fa-save mr-2"></i> Crear Usuario
                         </button>
                     </div>
                 </form>
@@ -105,6 +78,4 @@
 
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </x-app-layout>

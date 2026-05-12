@@ -56,63 +56,73 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
+                            @forelse ($pagos as $pago)
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-semibold text-gray-600 text-sm">
+                                        {{ $pago->id }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-600 text-sm">
+                                        #{{ $pago->id_pagare }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-600 text-sm">
+                                        {{ $pago->id_usuario }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-green-600 font-bold text-sm">
+                                        ${{ number_format($pago->monto_pago, 2) }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-500 text-sm">
+                                        {{ \Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y H:i') }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-600 text-sm font-medium">
+                                        {{ $pago->metodo_pago }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4 text-gray-500 text-xs font-mono">
+                                        {{ $pago->referencia_transaccion ?? 'N/A' }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-4">
+                                        @php
+                                            // Logica de colores: Verde si está completado, amarillo si está pendiente o cancelado
+                                            $color = $pago->estatus == 'COMPLETADO' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+                                        @endphp
+                                        <span class="px-3 py-1 rounded-full text-xs font-bold {{ $color }}">
+                                            {{ $pago->estatus }}
+                                        </span>
+                                    </td>
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">$ ---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">--/--/----</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
-                                        PENDIENTE
-                                    </span>
-                                </td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">$ ---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">--/--/----</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
-                                        PAGADO
-                                    </span>
-                                </td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
+                                    <td class="px-4 py-4 text-center">
+                                        <div class="flex justify-center items-center gap-3">
+                                            <a href="{{ route('pagos.edit', $pago->id) }}" 
+                                            class="text-gray-400 hover:text-gray-900 transition" title="Editar">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            
+                                            <form action="{{ route('pagos.destroy', $pago->id) }}" method="POST" class="inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="text-gray-400 hover:text-red-600 transition" 
+                                                        onclick="return confirm('¿Seguro que deseas eliminar este pago?')" 
+                                                        title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="px-4 py-8 text-center text-gray-500 italic">
+                                        No hay pagos registrados todavía.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

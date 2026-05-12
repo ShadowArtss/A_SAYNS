@@ -52,46 +52,30 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
-
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                        </tbody>
+    @forelse ($expedientes as $expediente)
+        <tr class="hover:bg-gray-50 transition">
+            <td class="px-4 py-4 font-semibold text-gray-600 text-sm">{{ $expediente->id }}</td>
+            <td class="px-4 py-4 text-sm">{{ $expediente->contrato ? 'SÍ' : 'NO' }}</td>
+            <td class="px-4 py-4 text-sm">{{ $expediente->ine ? 'SÍ' : 'NO' }}</td>
+            <td class="px-4 py-4 text-sm">
+                <a href="{{ asset('storage/' . $expediente->ruta_documentos) }}" target="_blank" class="text-blue-600">Ver PDF</a>
+            </td>
+            <td class="px-4 py-4 text-center">
+                <a href="{{ route('expedientes.edit', $expediente->id) }}" class="mx-2"><i class="fas fa-pen"></i></a>
+                <form action="{{ route('expedientes.destroy', $expediente->id) }}" method="POST" class="inline">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="text-red-600"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" class="px-4 py-8 text-center text-gray-500 italic">
+                No hay expedientes registrados aún.
+            </td>
+        </tr>
+    @endforelse
+</tbody>
                     </table>
                 </div>
 

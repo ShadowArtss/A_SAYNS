@@ -38,6 +38,17 @@
                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
+            @if(session('success'))
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded shadow-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 rounded shadow-sm">
+                    {{ session('info') }}
+                </div>
+            @endif
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full border border-gray-200 rounded-xl overflow-hidden">

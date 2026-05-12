@@ -11,7 +11,6 @@ class expediente extends Model
 
     // Forzamos el nombre de la tabla exacto del PDF (Pág. 7 y 19)
     protected $table = 'expedientes';
-
     protected $fillable = [
         'contrato',
         'INE',
