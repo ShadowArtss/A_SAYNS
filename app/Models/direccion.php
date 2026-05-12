@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class direccion extends Model
 {
     public $timestamps = false;
+    protected $table = 'direccions';
 
     protected $fillable = [
         'calle',
@@ -20,6 +21,6 @@ class direccion extends Model
 
     public function deudors()
     {
-        return $this->hasOne(Deudor::class);
+        return $this->hasMany(Deudor::class, 'direccion_id', 'id');
     }
 }
