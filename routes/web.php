@@ -8,6 +8,8 @@ use App\Http\Controllers\aseguradoracontroller;
 use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\SeguimientoController;
 
 Route::view('/', 'welcome');
 
@@ -22,6 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('aseguradoras', aseguradoracontroller::class);
     route::resource('expedientes', ExpedienteController::class);
     route::resource('usuarios', UserController::class);
+    Route::resource('roles', RolController::class);
+    Route::resource('seguimientos', SeguimientoController::class);
 
     // DEUDORES
     //Route::view('/deudores', 'deudores.index')->name('deudores.index');
@@ -36,8 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Route::view('/expedientes/create', 'expedientes.create')->name('expedientes.create');
 
     // SEGUIMIENTOS
-    Route::view('/seguimientos', 'seguimientos.index')->name('seguimientos.index');
-    Route::view('/seguimientos/create', 'seguimientos.create')->name('seguimientos.create');
+    //Route::view('/seguimientos', 'seguimientos.index')->name('seguimientos.index');
+    //Route::view('/seguimientos/create', 'seguimientos.create')->name('seguimientos.create');
 
     // ASEGURADORAS
     //Route::view('/aseguradoras', 'aseguradoras.index')->name('aseguradoras.index');
@@ -60,8 +64,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Route::view('/usuarios/create', 'usuarios.create')->name('usuarios.create');
 
     // ROLES
-    Route::view('/roles', 'roles.index')->name('roles.index');
-    Route::view('/roles/create', 'roles.create')->name('roles.create');
+    //Route::view('/roles', 'roles.index')->name('roles.index');
+    //Route::view('/roles/create', 'roles.create')->name('roles.create');
 
     //PEYPAL_PAGOS
     //Route::view('/paypal_pagos', 'paypal_pagos.index')->name('paypal_pagos.index');

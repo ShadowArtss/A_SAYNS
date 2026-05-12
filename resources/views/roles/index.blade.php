@@ -45,49 +45,49 @@
                             <tr>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">ID Rol</th>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Nombre</th>
-                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Descripción</th>
                                 <th class="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase">Acciones</th>
                             </tr>
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
-
+                            @foreach ($roles as $rol)
                             <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
+                                <!-- ID del Rol -->
+                                <td class="px-4 py-4 font-semibold text-gray-600">
+                                    {{ $rol->id }}
+                                </td>
 
+                                <!-- Nombre (Recuerda que en tu DB la columna se llama 'rol') -->
+                                <td class="px-4 py-4 text-gray-700 font-medium">
+                                    {{ $rol->rol }}
+                                </td>
+
+                                <!-- Acciones -->
                                 <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
+
+                                    <a href="{{ route('roles.edit', $rol->id) }}" class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
                                         <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    </a>
+
+                                    <!-- Botón Eliminar con formulario para que funcione el Resource -->
+                                    <form action="{{ route('roles.destroy', $rol->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar este rol?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
+                            @endforeach
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                            @if($roles->isEmpty())
+                            <tr>
+                                <td colspan="4" class="px-4 py-8 text-center text-gray-500">
+                                    No hay roles registrados actualmente.
                                 </td>
                             </tr>
-
+                            @endif
                         </tbody>
                     </table>
                 </div>

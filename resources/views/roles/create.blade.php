@@ -35,43 +35,36 @@
                     </span>
                 </div>
 
-                <form>
+                <form action="{{ route('roles.store') }}" method="POST">
+                    @csrf <!-- ¡No olvides esto! Es el pase de seguridad de Laravel -->
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+                        <!-- ID Rol (Ojo: Si tu ID es autoincremental en la DB, puedes dejarlo como readonly o quitarlo) -->
                         <div>
                             <label class="block text-xs font-bold text-gray-600 uppercase mb-2">ID Rol</label>
-                            <input type="text" placeholder="Ej: ROL-001"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                            <input type="text" placeholder="Autogenerado" disabled
+                                class="w-full rounded-lg border-gray-300 bg-gray-50 text-gray-400 cursor-not-allowed">
                         </div>
 
+                        <!-- Nombre del Rol -->
                         <div>
                             <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Nombre del Rol</label>
-                            <input type="text" placeholder="Ej: Administrador"
-                                   class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Descripción</label>
-                            <textarea rows="4" placeholder="Ej: Rol con permisos completos del sistema"
-                                      class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"></textarea>
+                            <!-- El name="rol" es vital porque así lo definimos en el Modelo y Tinker -->
+                            <input type="text" name="rol" placeholder="Ej: Administrador" required
+                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('rol') border-red-500 @enderror">
+                            @error('rol')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                     </div>
 
                     <div class="flex justify-end gap-4 mt-8">
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">
-                            <i class="fas fa-eye mr-2"></i> Ver
-                        </button>
-
-                        <button type="button"
-                                class="px-6 py-2 rounded-xl bg-gray-900 text-white font-bold hover:bg-gray-800 transition">
-                            <i class="fas fa-pen mr-2"></i> Editar
-                        </button>
-
+                        <!-- El botón Guardar ahora es el único que hace el 'submit' -->
                         <button type="submit"
                                 class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">
-                            <i class="fas fa-save mr-2"></i> Guardar
+                            <i class="fas fa-save mr-2"></i> Guardar Rol
                         </button>
                     </div>
                 </form>
