@@ -4,6 +4,7 @@ use App\Http\Controllers\DeudorController;
 use App\Http\Controllers\pagoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\pagarecontroller;
+use App\Http\Controllers\DireccionController;
 
 Route::view('/', 'welcome');
 
@@ -12,6 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
     Route::resource('deudores', DeudorController::class);
+    Route::resource('direcciones', DireccionController::class);
     Route::resource('pagares', PagareController::class);
     Route::resource('pagos', PagoController::class);
 
@@ -20,8 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Route::view('/deudores/create', 'deudores.create')->name('deudores.create');
 
     // DIRECCIONES
-    Route::view('/direcciones', 'direcciones.index')->name('direcciones.index');
-    Route::view('/direcciones/create', 'direcciones.create')->name('direcciones.create');
+    //Route::view('/direcciones', 'direcciones.index')->name('direcciones.index');
+    //Route::view('/direcciones/create', 'direcciones.create')->name('direcciones.create');
 
     // EXPEDIENTES
     Route::view('/expedientes', 'expedientes.index')->name('expedientes.index');
