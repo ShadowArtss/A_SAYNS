@@ -1,91 +1,69 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\deudor;
+use App\Http\Requests\DeudorRequest;
 use Illuminate\Http\Request;
 
 class DeudorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        // Traemos todos los deudores
+        $deudores = Deudor::all();
+        return view('deudores.index', compact('deudores'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('deudores.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(DeudorRequest $request)
     {
-$validated =
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apellido_p' => 'required|string|max:100',
-            'apellido_m' => 'nullable|string|max:100',
-            'direccion' => 'required|string|max:255',
-            'celular' => 'required|numeric|max:20',
-            'telefono' => 'required|string|max:20',
-            'email' => 'required|email|unique:deudores,email',
-            'curp' => 'required|string|max:18|unique:deudores,curp',
-            'estatus' => 'required|boolean',
-            'calle' => 'required|string|max:255',
-            'numero_exterior' => 'required|string|max:20',
-            'numero_interior' => 'nullable|string|max:20',
-            'colonia' => 'required|string|max:255',
-            'codigo_postal' => 'required|string|max:10',
-            'lote' => 'nullable|string|max:50',
-            'referencia' => 'nullable|string|max:255',
-        ]);
-
-        // Crear un nuevo deudor con los datos validados
-            Deudor::create($validated);
-
-        // Redirigir o retornar una respuesta según sea necesario
-        return redirect()->route('deudores.index')->with('success', 'Deudor creado exitosamente.');
+        Deudor::create($request->validated());
+        return redirect()->route('deudores.index')->with('success', 'Deudor guardado');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $deudor = Deudor::findOrFail($id);
+        return view('deudores.show', compact('deudor'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $deudor = Deudor::findOrFail($id);
+        return view('deudores.edit', compact('deudor'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(DeudorRequest $request, deudor $deudor)
+    public function update(Request $request, string $id)
     {
-        $deudor->update($request->validated());
+        $deudor = Deudor::findOrFail($id);
 
-        return redirect()->route('deudores.index')->with('info', 'Datos actualizados con éxito');
+        $request->validate([
+            'direccion_id'  => 'required',
+            'nombres'       => 'required',
+            'apellido_p'    => 'required',
+            'apellido_m'    => 'nullable',
+            'curp'          => 'required',
+            'celular'       => 'required',
+            'telefono_fijo' => 'nullable',
+            'email'         => 'required|email',
+            'estatus'       => 'required'
+        ]);
+
+        $deudor->update($request->all());
+
+        return redirect()->route('deudores.index')->with('success', 'Deudor actualizado');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(deudor $deudor)
+    public function destroy(string $id)
     {
+        $deudor = Deudor::findOrFail($id);
         $deudor->delete();
-        return redirect()->route('deudores.index')->with('danger', 'Deudor eliminado del sistema');
+
+        return redirect()->route('deudores.index')->with('success', 'Deudor eliminado correctamente');
     }
 }

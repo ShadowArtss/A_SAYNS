@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class deudor extends Model
 {
+    public $timestamps = false;
     protected $fillable = ['nombres', 'apellido_p', 'apellido_m', 'celular', 'telefono_fijo','curp', 'email', 'estatus', 'direccion_id'];
 
 public function direccion()

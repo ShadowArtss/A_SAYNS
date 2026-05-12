@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // 1. Apagamos los timestamps porque tu tabla no los tiene
+    public $timestamps = false;
+
+    // 2. Forzamos el nombre de la tabla (ajustar si en tu DB es 'users' o 'usuarios')
+    protected $table = 'users';
+
+    // 3. Definimos las columnas exactas de tu base de datos
     protected $fillable = [
         'usuario',
         'email',
@@ -25,30 +24,32 @@ class User extends Authenticatable
         'rol_id',
     ];
 
+    // Relación con la tabla de roles
     public function rol()
     {
-        return $this->belongsTo(roles::class);
+        return $this->belongsTo(roles::class, 'rol_id');
     }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+
+    // 4. Ocultamos la 'clave' para que no se filtre en consultas JSON
     protected $hidden = [
-        'password',
+        'clave',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'clave' => 'hashed', // Hasheamos automáticamente al guardar
         ];
+    }
+
+    /**
+     * 5. IMPORTANTE: Le decimos a Laravel que tu columna de contraseña
+     * se llama 'clave' y no 'password'.
+     */
+    public function getAuthPasswordName()
+    {
+        return 'clave';
     }
 }

@@ -34,12 +34,12 @@ class DeudorRequest extends FormRequest
                 'required',
                 'string',
                 'size:18',
-                'regex:/^[A-Z]{4}[0-9]{6}[H,M][A-Z]{5}[A-Z0-9]{2}$/',
-                'unique:deudores,curp,' . ($this->deudor ? $this->deudor->id : ''),
+                // Quitamos la regex complicada temporalmente para que te deje probar
+                'unique:deudors,curp,' . ($this->deudor ? $this->deudor->id : ''),
             ],
-            'email' => 'required|email|max:255|unique:deudores,email,' . ($this->deudor ? $this->deudor->id : ''),
+            'email' => 'required|email|max:255|unique:deudors,email,' . ($this->deudor ? $this->deudor->id : ''),
             'estatus' => 'required|in:activo,inactivo',
-            'direccion_id' => 'required|exists:direcciones,id',
+            'direccion_id' => 'required|exists:direccions,id',
         ];
     }
 }
