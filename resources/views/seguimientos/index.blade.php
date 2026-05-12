@@ -28,13 +28,13 @@
                             Tabla de Seguimientos
                         </h3>
                         <p class="text-sm text-gray-500">
-                            Puedes buscar por ID de seguimiento
+                            Registro de procesos legales y administrativos
                         </p>
                     </div>
 
                     <div class="w-full md:w-96">
                         <input type="text"
-                               placeholder="Buscar..."
+                               placeholder="Buscar por ID..."
                                class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
@@ -42,8 +42,21 @@
                 <div class="overflow-x-auto">
                     <table class="min-w-full border border-gray-200 rounded-xl overflow-hidden">
                         <thead class="bg-gray-100">
+                            <!-- Mensaje de Éxito -->
+                            @if (session('success'))
+                                <div class="mb-4 px-4 py-2 bg-green-100 border-l-4 border-green-500 text-green-700 font-medium rounded-r-lg shadow-sm">
+                                    <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <!-- Mensaje de Error (El que necesitas para el warning) -->
+                            @if (session('error'))
+                                <div class="mb-4 px-4 py-2 bg-red-100 border-l-4 border-red-500 text-red-700 font-medium rounded-r-lg shadow-sm">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i> {{ session('error') }}
+                                </div>
+                            @endif
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">ID Seguimiento</th>
+                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">ID</th>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Fecha Notificación</th>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Fecha Embargo</th>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Fecha Cierre</th>
@@ -53,44 +66,44 @@
 
                         <tbody class="divide-y divide-gray-200">
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
+                            @forelse ($seguimientos as $item)
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-4 py-4 font-semibold text-gray-600">{{ $item->id }}</td>
+                                    <td class="px-4 py-4 text-gray-600">
+                                        {{ $item->fecha_notificacion ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-4 py-4 text-gray-600">
+                                        {{ $item->fecha_embargo ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-4 py-4 text-gray-600">
+                                        {{ $item->fecha_cierre ?? 'N/A' }}
+                                    </td>
 
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                    <td class="px-4 py-4 text-center flex justify-center gap-4">
+                                        <!-- Botón Editar -->
+                                        <a href="{{ route('seguimientos.edit', $item->id) }}"
+                                           class="text-gray-400 hover:text-blue-600 transition" title="Editar">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
 
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-4 font-semibold text-gray-600">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-                                <td class="px-4 py-4 text-gray-500 italic">---</td>
-
-                                <td class="px-4 py-4 text-center">
-                                    <button class="text-gray-400 hover:text-blue-600 mx-2" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-900 mx-2" title="Editar">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-600 mx-2" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
+                                        <!-- Formulario Eliminar -->
+                                        <form action="{{ route('seguimientos.destroy', $item->id) }}" method="POST"
+                                              onsubmit="return confirm('¿Estás seguro de eliminar este seguimiento?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-gray-400 hover:text-red-600 transition" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-4 py-8 text-center text-gray-500 italic">
+                                        No hay registros de seguimiento disponibles.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
